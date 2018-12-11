@@ -1,5 +1,6 @@
 package tralafarlaw.miguel.button;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ImageButton;
 
 public class Main_Button extends AppCompatActivity {
 
+    private Location loc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,14 @@ public class Main_Button extends AppCompatActivity {
         });
     }
     public void conectar(){
-        Location
+
+    }
+
+    public Location getLocaction() {
+        return loc;
+    }
+
+    public void setLocation(Location loc) {
+        this.loc = loc;
     }
 }

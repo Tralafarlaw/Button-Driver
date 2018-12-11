@@ -1,28 +1,29 @@
 package tralafarlaw.miguel.button;
 
+import android.content.Context;
+import android.icu.util.Calendar;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.text.format.Time;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.OutputStreamWriter;
+
 public class MyLocationListener implements LocationListener {
-    private mapaosm mainActivity;
+    private Main_Button mainActivity;
     private DatabaseReference databaseReference;
-    boolean visible;
 
-    public MyLocationListener (boolean sw){
-        visible = sw;
-    }
 
-    public mapaosm getMainActivity() {
+    public Main_Button getMainActivity() {
         return mainActivity;
     }
 
-    public void setMainActivity(mapaosm mainActivity) {
+    public void setMainActivity(Main_Button mainActivity) {
         this.mainActivity = mainActivity;
     }
 
@@ -32,27 +33,40 @@ public class MyLocationListener implements LocationListener {
         // debido a la detecci—n de un cambio de ubicacion
         loc.getLatitude();
         loc.getLongitude();
-        String Text = "Mi ubicaci—n actual es: " + "\n Lat = "
-                + loc.getLatitude() + "\n Long = " + loc.getLongitude();
-        //messageTextView.setText(Text);
+
         this.mainActivity.setLocation(loc);
 
         //empezamos con firebase
         databaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser fbuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fbuser != null) {
-            User user1 = new User(fbuser.getDisplayName(), loc.getLongitude(), loc.getLatitude(), visible, "pnaranja");
-            updatedb(user1);
+            //actualizar la ase de datos
+            escribir_archivo(fbuser.getDisplayName(), loc);
+        }
+    }
+    public void escribir_archivo(String Nombre, Location loc){
+        OutputStreamWriter escritor=null;
+        try{
+            Time time = new Time();
+            time.setToNow();
+            escritor = new OutputStreamWriter(mainActivity.openFileOutput(Nombre, Context.MODE_APPEND));
+            escritor.write(loc.getLatitude()+" "+
+                    loc.getLongitude()+" "+
+                    time.hour+" "+
+                    time.minute+" "+
+                    time.second);
+
+        }catch (Exception e){}
+        finally {
+            try {
+                if(escritor!= null)
+                    escritor.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
-    public void updatedb (User usr){
-        databaseReference.child(usr.getEmail()).child("color").setValue(usr.getColor());
-        databaseReference.child(usr.getEmail()).child("email").setValue(usr.getEmail());
-        databaseReference.child(usr.getEmail()).child("lat").setValue(usr.getLat());
-        databaseReference.child(usr.getEmail()).child("lon").setValue(usr.getLon());
-        databaseReference.child(usr.getEmail()).child("visible");
-    }
 
     @Override
     public void onProviderDisabled(String provider) {
@@ -75,5 +89,6 @@ public class MyLocationListener implements LocationListener {
         // TEMPORARILY_UNAVAILABLE -> Temp˜ralmente no disponible pero se
         // espera que este disponible en breve
         // AVAILABLE -> Disponible
+        //poner aca los alerts
     }
 }
