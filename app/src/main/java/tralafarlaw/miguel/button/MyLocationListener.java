@@ -31,8 +31,6 @@ public class MyLocationListener implements LocationListener {
     public void onLocationChanged(Location loc) {
         // Este mŽtodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
         // debido a la detecci—n de un cambio de ubicacion
-        loc.getLatitude();
-        loc.getLongitude();
 
         this.mainActivity.setLocation(loc);
 
@@ -41,8 +39,15 @@ public class MyLocationListener implements LocationListener {
         FirebaseUser fbuser = FirebaseAuth.getInstance().getCurrentUser();
         if(fbuser != null) {
             //actualizar la ase de datos
-            escribir_archivo(fbuser.getDisplayName(), loc);
+            actualizar_ubicacion(fbuser.getDisplayName(),loc);
+            //escribir_archivo(fbuser.getDisplayName(), loc);
+
+
         }
+    }
+    public void actualizar_ubicacion(String id, Location loc){
+        databaseReference.child(mainActivity.getString(R.string.tabla_conductor)).child(id).child(mainActivity.getString(R.string.lat)).setValue(loc.getLatitude());
+        databaseReference.child(mainActivity.getString(R.string.tabla_conductor)).child(id).child(mainActivity.getString(R.string.lon)).setValue(loc.getLongitude());
     }
     public void escribir_archivo(String Nombre, Location loc){
         OutputStreamWriter escritor=null;

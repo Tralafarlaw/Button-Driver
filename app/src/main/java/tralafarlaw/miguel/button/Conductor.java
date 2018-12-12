@@ -3,7 +3,7 @@ package tralafarlaw.miguel.button;
 import java.util.List;
 
 public class Conductor {
-    private String Nombre;
+    private String Nombre, CI, Telefono;
     private double lat;
     private double lon;
     private List<control> ruta;
