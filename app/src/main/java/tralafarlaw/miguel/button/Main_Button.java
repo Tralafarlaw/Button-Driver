@@ -1,12 +1,17 @@
 package tralafarlaw.miguel.button;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -81,5 +86,29 @@ public class Main_Button extends AppCompatActivity {
 
     public void setLocation(Location loc) {
         this.loc = loc;
+    }
+
+    public void notificacion(View v)
+    {
+        NotificationCompat.Builder notificacion = new NotificationCompat.Builder(this)
+                .setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setLargeIcon((((BitmapDrawable) getResources()
+                        .getDrawable(R.drawable.ic_launcher_background)).getBitmap()))
+                .setContentTitle("Titulo de prueba")
+                .setContentText("Pulsa aqui para abrir")
+                .setTicker("Prueba de ticker")
+                .setContentInfo("Content info prueba");
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent intent2 = PendingIntent.getActivity(this, 0, intent,0);
+
+        notificacion.setContentIntent(intent2);
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(10,notificacion.build());
+    }
+
+    public void borrarTodasNotificacion(View view)
+    {
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancelAll();
     }
 }
