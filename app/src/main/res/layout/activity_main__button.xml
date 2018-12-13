@@ -20,19 +20,27 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="notificacion"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="109dp" />
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="borrarTodasNotificacion"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="160dp" />
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/conected_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
